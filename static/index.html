@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-section input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        .colorGroup, .sizeGroup {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .removeBtn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Product Form</h2>
+
+<form id="productForm" enctype="multipart/form-data" action="/submit" method="POST">
+    <div class="form-section">
+        <label for="collection">Collection</label>
+        <input type="text" id="collection" name="collection" required>
+    </div>
+
+    <div class="form-section">
+        <label for="item">Product Image (Main)</label>
+        <input type="file" id="item" name="item" accept="image/*" required>
+    </div>
+
+    <div class="form-section">
+        <label for="price">Price</label>
+        <input type="number" step="0.01" id="price" name="price" required>
+    </div>
+
+    <div class="form-section">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+
+    <div class="form-section">
+        <label for="title">Description</label>
+        <input type="text" id="description" name="description" rows="5" placeholder="Write a detailed product description" required>
+    </div>
+
+    <!-- Available Colors Section -->
+    <h3>Available Colors</h3>
+    <div id="colorsSection">
+        <div class="colorGroup">
+            <label for="color">Color (Hex Code)</label>
+            <input type="color" class="color" name="color[]" required>
+            <label for="imgs">Images</label>
+            <input type="file" class="imgs" name="imgs[]" accept="image/*" multiple required>
+            <button type="button" class="removeBtn" onclick="removeInput(this)">Remove</button>
+        </div>
+    </div>
+    <button type="button" onclick="addColor()">Add More Colors</button>
+
+    <!-- Available Sizes Section -->
+    <h3>Available Sizes</h3>
+    <div id="sizesSection">
+        <div class="sizeGroup">
+            <label for="size">Size</label>
+            <input type="number" class="size" name="size[]" required>
+            <button type="button" class="removeBtn" onclick="removeInput(this)">Remove</button>
+        </div>
+    </div>
+    <button type="button" onclick="addSize()">Add More Sizes</button>
+
+    <br><br>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+// JavaScript to dynamically add/remove color and size inputs
+function addColor() {
+    const colorSection = document.createElement('div');
+    colorSection.classList.add('colorGroup');
+    colorSection.innerHTML = `
+        <label for="color">Color</label>
+        <input type="color" class="color" name="color[]" required>
+        <label for="imgs">Images</label>
+        <input type="file" class="imgs" name="imgs[]" accept="image/*" multiple required>
+        <button type="button" class="removeBtn" onclick="removeInput(this)">Remove</button>
+    `;
+    document.getElementById('colorsSection').appendChild(colorSection);
+}
+
+function addSize() {
+    const sizeSection = document.createElement('div');
+    sizeSection.classList.add('sizeGroup');
+    sizeSection.innerHTML = `
+        <label for="size">Size</label>
+        <input type="number" class="size" name="size[]" required>
+        <button type="button" class="removeBtn" onclick="removeInput(this)">Remove</button>
+    `;
+    document.getElementById('sizesSection').appendChild(sizeSection);
+}
+
+// Remove dynamically added input fields
+function removeInput(button) {
+    button.parentNode.remove();
+}
+
+</script>
+
+</body>
+</html>
